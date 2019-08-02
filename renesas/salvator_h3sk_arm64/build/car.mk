@@ -69,6 +69,7 @@ $(call inherit-product-if-exists, frameworks/base/data/keyboards/keyboards.mk)
 $(call inherit-product-if-exists, frameworks/webview/chromium/chromium.mk)
 $(call inherit-product, $(LOCAL_PATH)/car_base.mk)
 
+$(warning "Value of LOCAL_PATH is '$(LOCAL_PATH)'")
 
 # Overrides
 PRODUCT_BRAND := generic

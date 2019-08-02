@@ -33,7 +33,7 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_KERNEL := false
 TARGET_NO_RECOVERY := true
 TARGET_USES_64_BIT_BINDER := true
-BOARD_IS_AUTOMOTIVE := true #may be needed for car libraries from platform/packages
+BOARD_IS_AUTOMOTIVE := false #may be needed for car libraries from platform/packages #changed to false since it causes system server to start car_service but its not starting #change not working!!!
 
 #Graphics
 BOARD_USES_DRM_HWCOMPOSER := true
@@ -41,14 +41,14 @@ BOARD_USES_DRM_HWCOMPOSER := true
 LIBGRALLOC := gralloc.gbm
 USE_OPENGL_RENDERER := true
 NUM_FRAMEBUFFER_SURFACE_BUFFERS ?= 3
-BOARD_GPU_DRIVERS ?= virgl swrast nouveau vmwgfx
+BOARD_GPU_DRIVERS ?= virgl swrast
 BOARD_USE_LEGACY_UI := true
 
 #Android images configuration
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2147483648 #2.1 GB
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2147483648 #2.1 GB, 3221225472=3.1 GB
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2147483648 #2.1 GB
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
 BOARD_FLASH_BLOCK_SIZE := 512
@@ -71,7 +71,12 @@ USE_CAMERA_STUB := false
 #GPS
 BOARD_HAS_GPS_HARDWARE := true
 
-#BT (Some framework code requires this to enable BT)
+#wifi
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+WPA_SUPPLICANT_VERSION := VER_2_1_DEVEL
+
+#BT
 BOARD_HAVE_BLUETOOTH := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/generic/common/bluetooth
 

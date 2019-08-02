@@ -152,6 +152,9 @@ function init_hal_gralloc()
 	modprobe bluetooth
 	modprobe btusb
 	modprobe virtio_console
+	#modprobe virtio_input
+	#modprobe virtio-net
+	#modprobe virtio-gpu
 	case "$(cat /proc/fb | head -1)" in
 		*virtiodrmfb)
 			if [ "$HWACCEL" != "0" ]; then
