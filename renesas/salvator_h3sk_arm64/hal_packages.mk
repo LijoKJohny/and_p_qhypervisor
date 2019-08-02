@@ -15,7 +15,7 @@
 #
 
 
-
+# Graphics HAl and dependent libraries
 PRODUCT_PACKAGES += \
     android.hardware.graphics.common@1.0-impl \
     android.hardware.graphics.mapper@2.0-impl \
@@ -37,7 +37,9 @@ PRODUCT_PACKAGES += \
     libGLES_android \
     libtxc_dxtn \
     vintf \
+    libLLVM \
 
+# VNDK libraries
 PRODUCT_PACKAGES += \
     vndk-sp \
     android.hardware.renderscript@1.0.vndk-sp\
@@ -65,100 +67,44 @@ PRODUCT_PACKAGES += \
     liblzma.vndk-sp\
     libz.vndk-sp\
 
+# Automotive
 PRODUCT_PACKAGES += \
-    android.hardware.audio@4.0-impl \
-    android.hardware.audio@4.0-service \
-    android.hardware.audio.effect@4.0-impl \
     android.hardware.automotive.audiocontrol@1.0-service \
     android.hardware.automotive.vehicle@2.0-impl \
     android.hardware.automotive.vehicle@2.0-service \
-    android.hardware.broadcastradio@1.1-impl \
-    android.hardware.soundtrigger@2.0-impl \
-    android.hardware.configstore@1.0-service \
-    android.hardware.memtrack@1.0-impl \
-    android.hardware.memtrack@1.0-service \
 
+# Broadcast radio HAL (AM/FM)
+PRODUCT_PACKAGES += \
+    android.hardware.broadcastradio@1.1-impl \
+
+# Sound recognition
+PRODUCT_PACKAGES += \
+    android.hardware.soundtrigger@2.0-impl \
+
+# configstore HAL
+PRODUCT_PACKAGES += \
+    android.hardware.configstore@1.0-service \
+
+# memtrack HAL (graphics memory) - currently not working in hypervisor, need hw implementation 
+#PRODUCT_PACKAGES += \
+#    android.hardware.memtrack@1.0-impl \
+#    android.hardware.memtrack@1.0-service \
+
+# Keymaster HAL
 PRODUCT_PACKAGES += \
     android.hardware.keymaster@3.0-impl \
     android.hardware.keymaster@3.0-service
 
+# GPS, GNSS HAL libraries
 PRODUCT_PACKAGES += \
     android.hardware.gnss@1.0-service \
-    android.hardware.gnss@1.0-impl
+    android.hardware.gnss@1.0-impl \
+    gps.default \
 
+# Sensor HaL libraries
 PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-impl \
-    android.hardware.sensors@1.0-service
-
-PRODUCT_PACKAGES += \
-    android.hardware.drm@1.0-service \
-    android.hardware.drm@1.0-impl
-
-PRODUCT_PACKAGES += \
-    android.hardware.power@1.0-service \
-    android.hardware.power@1.0-impl
-
-PRODUCT_PACKAGES += \
-    camera.device@1.0-impl \
-    android.hardware.camera.provider@2.4-service \
-    android.hardware.camera.provider@2.4-impl \
-
-PRODUCT_PACKAGES += android.hardware.health@2.0-service
-
-#Media #check this after building
-PRODUCT_PACKAGES += \
-    android.hardware.media@1.0 \
-    android.hardware.media.omx@1.0 \
-    android.hardware.media.omx@1.0-service \
-
-#PRODUCT_PACKAGES += \
-#    android.hardware.gatekeeper@1.0-impl \
-#    android.hardware.gatekeeper@1.0-service
-
-#Light
-PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service \
-    android.hardware.light@2.0-impl \
-    lights.default \
-
-# Bluetooth
-PRODUCT_PACKAGES += \
-    bluetooth.default \
-    audio.a2dp.default \
-    libbluetooth_jni \
-
-# Audio
-PRODUCT_PACKAGES += \
-    audio.primary.default \
-    audio.r_submix.default \
-    audio.usb.default \
-    audio.a2dp.default \
-
-
-# Wi-Fi
-PRODUCT_PACKAGES += \
-    libwpa_client \
-    hostapd \
-    android.hardware.wifi@1.0-service \
-    android.hardware.wifi.supplicant@1.0 \
-    hostapd.android \
-    wpa_supplicant \
-    rild \
-
-# Render Script
-PRODUCT_PACKAGES += \
-    android.hardware.renderscript@1.0-impl \
-    libLLVM \
-    libRS \
-    librs_jni \
-    libRSDriver \
-    libRS_internal \
-    libRSCacheDir \
-    libRSCpuRef \
-    libRScpp \
-
-# Sensor libraries
-PRODUCT_PACKAGES += \
+    android.hardware.sensors@1.0-service \
     sensors.hdaps \
     sensors.iio-old \
     sensors.kbd \
@@ -169,19 +115,92 @@ PRODUCT_PACKAGES += \
     activity \
     sensors.iio \
 
-# GPS libraries
+# Media DRM HAL
 PRODUCT_PACKAGES += \
-    gps.default \
-    gps.huawei \
+    android.hardware.drm@1.0-service \
+    android.hardware.drm@1.0-impl
 
-# Camera
+# Power management setup HAL
 PRODUCT_PACKAGES += \
+    android.hardware.power@1.0-service \
+    android.hardware.power@1.0-impl \
+    power.arm64 \
+    power.default \
+
+# Camera HAL
+PRODUCT_PACKAGES += \
+    camera.device@1.0-impl \
+    android.hardware.camera.provider@2.4-service \
+    android.hardware.camera.provider@2.4-impl \
     camera.arm64 \
 
-# Bluetoogh
+# Health HAL (for monitoring battery,charger,recovery and storage)
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.0-service.btlinux \
-    rtk_hciattach \
+    android.hardware.health@2.0-service
+
+# Media and OMX 
+PRODUCT_PACKAGES += \
+    android.hardware.media@1.0 \
+    android.hardware.media.omx@1.0 \
+    android.hardware.media.omx@1.0-service \
+
+# Gatekeeper HAL - zygote need this after first bootup otherwise crashes and reboots
+PRODUCT_PACKAGES += \
+    android.hardware.gatekeeper@1.0-impl \
+    android.hardware.gatekeeper@1.0-service \
+    libSoftGatekeeper \
+
+# Light HAL
+PRODUCT_PACKAGES += \
+    android.hardware.light@2.0-service \
+    android.hardware.light@2.0-impl \
+    lights.default \
+
+# Bluetooth - commented due to a crash in libbluetooth but now copying from Bluetooth package from somewhere else and the crash is still present
+#PRODUCT_PACKAGES += \
+#    android.hardware.bluetooth@1.0-service.btlinux \
+#    android.hardware.bluetooth@1.0-service \
+#    android.hardware.bluetooth@1.0-impl \
+#    bluetooth.default \
+#    audio.a2dp.default \
+#    libbluetooth_jni \
+#    rtk_hciattach \
+
+
+# Audio
+PRODUCT_PACKAGES += \
+    android.hardware.audio@4.0-impl \
+    android.hardware.audio@4.0-service \
+    android.hardware.audio.effect@4.0-impl \
+    audio.r_submix.default \
+    audio.usb.default \
+    audio.a2dp.default \
+    audio.primary.arm64 \
+    audio.primary.hdmi \
+
+
+# Wi-Fi
+PRODUCT_PACKAGES += \
+    android.hardware.wifi@1.0 \
+    android.hardware.wifi@1.0-service \
+    android.hardware.wifi.supplicant@1.0 \
+    android.hardware.wifi@1.0-service-lib \
+    hostapd.android \
+    wpa_supplicant \
+    libwpa_client \
+    hostapd \
+#    rild \ - wifi only device
+
+# Render Script
+PRODUCT_PACKAGES += \
+    android.hardware.renderscript@1.0-impl \
+    libRS \
+    librs_jni \
+    libRSDriver \
+    libRS_internal \
+    libRSCacheDir \
+    libRSCpuRef \
+    libRScpp \
 
 # Dumpstate HAL
 PRODUCT_PACKAGES += \

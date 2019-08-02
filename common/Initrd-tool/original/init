@@ -184,6 +184,7 @@ if [ 0$DEBUG -gt 0 ]; then
 	echo -e "\nType 'exit' to continue booting...\n"
 	debug_shell debug-found
 fi
+#echo Pass3...
 # A target should provide its detect_hardware function.
 # On success, return 0 with the following values set.
 # return 1 if it wants to use auto_detect
@@ -197,6 +198,7 @@ mount_sdcard
 setup_tslib
 setup_dpi
 post_detect
+#echo Pass3a...
 
 if [ 0$DEBUG -gt 1 ]; then
 	echo -e "\nUse Alt-F1/F2/F3 to switch between virtual consoles"
@@ -212,18 +214,30 @@ echo "ro.setupwizard.mode=DISABLED" >> default.prop
 SWITCH=${SWITCH:-chroot}
 
 echo Initializing Android_QNX for arm64...
+#busybox cd /
+#busybox mount --move /sys /android/sys
+#busybox mount --move /dev /android/dev
 
 # We must disable mdev before switching to Android
 # since it conflicts with Android's init
 echo > /proc/sys/kernel/hotplug
 export ANDROID_ROOT=/system
 
-echo "Android Booting..."
-modprobe virtio-gpu
-modprobe virtio-net
-exec ${SWITCH:-switch_root} /android/system/ /init
+#busybox modprobe configfs
+#busybox modprobe binfmt_misc
+#busybox modprobe netconsole
+#busybox modprobe ip_tables
+#busybox modprobe x_tables
+#busybox modprobe iptable-filter
+#busybox modprobe nf_nat
+#busybox modprobe nf_conntrack_ipv4
+#busybox modprobe nf_conntrack
+#busybox modprobe iptable-nat
 
-#busybox chroot /android/system/ /init
+exec ${SWITCH:-switch_root} /android /init
+#busybox chroot /android /init
+#/init
+#echo Pass3d...
 # avoid kernel panic
 while :; do
 	echo

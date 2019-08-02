@@ -58,8 +58,17 @@ try_mount()
 		# for NFS roots, use nolock to avoid dependency to portmapper
 		RW="nolock,$RW"
 	fi
-	# FIXME: any way to mount ntfs gracefully?
-	mount -o $RW,noatime $@ || mount.ntfs-3g -o rw,force $@
+	case $(blkid $1) in
+		*TYPE=*ntfs*)
+			mount.ntfs-3g -o rw,force $@
+			;;
+		*TYPE=*)
+			mount -o $RW,noatime $@
+			;;
+		*)
+			return 1
+			;;
+	esac
 }
 
 check_root()
@@ -88,8 +97,11 @@ check_root()
 		return 1
 	fi
 	if [ -e /mnt/$SRC/system.sfs ]; then
-		mount -o loop,noatime /mnt/$SRC/system.sfs /sfs
-		mount -o loop,noatime /sfs/system.img system
+		mount -o loop,noatime /mnt/$SRC/system.sfs system
+		if [ -e system/system.img ]; then
+			mount --move system /sfs
+			mount -o loop,noatime /sfs/system.img system
+		fi
 	elif [ -e /mnt/$SRC/system.img ]; then
 		remount_rw
 		mount -o loop,noatime /mnt/$SRC/system.img system
@@ -218,12 +230,8 @@ echo Initializing Android_QNX for arm64...
 echo > /proc/sys/kernel/hotplug
 export ANDROID_ROOT=/system
 
-echo "Android Booting..."
-modprobe virtio-gpu
-modprobe virtio-net
-exec ${SWITCH:-switch_root} /android/system/ /init
 
-#busybox chroot /android/system/ /init
+exec ${SWITCH:-switch_root} /android /init
 # avoid kernel panic
 while :; do
 	echo
