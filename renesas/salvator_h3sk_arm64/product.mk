@@ -1,5 +1,5 @@
 #
-# Copyright 2014 The Android Open-Source Project
+# Copyright 2018 The Android Open-Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
 # limitations under the License.
 #
 
-#$(call inherit-product, $(LOCAL_PATH)/common/car.mk)
-#$(call inherit-product, $(LOCAL_PATH)/build/car.mk)
-$(call inherit-product, $(LOCAL_PATH)/product.mk)
 
-PRODUCT_NAME := salvator_h3sk_arm64
-PRODUCT_DEVICE := salvator_h3sk_arm64
-PRODUCT_BRAND := Android
-PRODUCT_MODEL := salvator_h3sk_arm64
-PRODUCT_MANUFACTURER := renesas
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+$(call inherit-product, packages/services/Car/car_product/build/car.mk)
+$(call inherit-product-if-exists, frameworks/base/data/sounds/AllAudio.mk)
+$(call inherit-product-if-exists, external/svox/pico/lang/all_pico_languages.mk)
+$(call inherit-product-if-exists, $(LOCAL_PATH)/device.mk)
+
+
+

@@ -128,15 +128,15 @@ PRODUCT_PACKAGES += \
     power.default \
 
 # Camera HAL
-PRODUCT_PACKAGES += \
-    camera.device@1.0-impl \
-    android.hardware.camera.provider@2.4-service \
-    android.hardware.camera.provider@2.4-impl \
-    camera.arm64 \
+#PRODUCT_PACKAGES += \
+#    camera.device@1.0-impl \
+#    android.hardware.camera.provider@2.4-service \
+#    android.hardware.camera.provider@2.4-impl \
+#    camera.arm64 \
 
 # Health HAL (for monitoring battery,charger,recovery and storage)
-PRODUCT_PACKAGES += \
-    android.hardware.health@2.0-service
+#PRODUCT_PACKAGES += \
+#    android.hardware.health@2.0-service
 
 # Media and OMX 
 PRODUCT_PACKAGES += \
@@ -203,8 +203,8 @@ PRODUCT_PACKAGES += \
     libRScpp \
 
 # Dumpstate HAL
-PRODUCT_PACKAGES += \
-    android.hardware.dumpstate@1.0-service 
+#PRODUCT_PACKAGES += \
+#    android.hardware.dumpstate@1.0-service 
 
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service \

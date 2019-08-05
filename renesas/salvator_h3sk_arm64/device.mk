@@ -14,9 +14,8 @@
 # limitations under the License.
 #
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-# Base configuration for communication-oriented android devices #no need to include this, review needed.
+$(call inherit-product, $(LOCAL_PATH)/hal_packages.mk)
+$(call inherit-product, $(LOCAL_PATH)/modprobe_extras.mk)
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.lockscreen.disable.default=true
@@ -50,6 +49,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     com.android.car.radio.demo.dual=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
+     dalvik.vm.heapstartsize=8m \
+     dalvik.vm.heapgrowthlimit=128M \
+     dalvik.vm.heapsize=174M
+
+PRODUCT_PROPERTY_OVERRIDES += \
     ro.carrier=unknown
 
 # copied from build/target/board/generic_arm64/device.mk
@@ -60,7 +64,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # copied from build/target/product/full_base_telephony.mk
 PRODUCT_PROPERTY_OVERRIDES += \
     keyguard.no_require_sim=true \
-    ro.com.android.dataroaming=true
+#    ro.com.android.dataroaming=true
 
 # Additional settings used in all AOSP builds
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -75,24 +79,24 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 #PRODUCT_FULL_TREBLE_OVERRIDE := true #commented this to make the device legacy
 
-# Audio tools
-PRODUCT_PACKAGES += \
-    tinymix \
-    tinypcminfo \
-    tinyplay \
-    tinycap
+# Audio tools - enable this if needed
+#PRODUCT_PACKAGES += \
+#    tinymix \
+#    tinypcminfo \
+#    tinyplay \
+#    tinycap
 
 # Radio Apps - copied from build/target/product/telephony.mk
-PRODUCT_PACKAGES += \
-    CarrierConfig \
-    CarrierDefaultApp \
-    Dialer \
-    CallLogBackup \
-    CellBroadcastReceiver \
-    EmergencyInfo \
-    rild \
-    CarLauncher \
-    WAPPushManager \
+#PRODUCT_PACKAGES += \
+#    CarrierConfig \
+#    CarrierDefaultApp \
+#    Dialer \
+#    CallLogBackup \
+#    CellBroadcastReceiver \
+#    EmergencyInfo \
+#    rild \
+#    CarLauncher \
+#    WAPPushManager \
 
 # Input methods
 PRODUCT_PACKAGES += \
@@ -102,38 +106,32 @@ PRODUCT_PACKAGES += \
     libwnndict \
 
 
-# These packages are obsolete I think
-#PRODUCT_PACKAGES += \
-#    Galaxy4 \
-#    HoloSpiralWallpaper \
-#    LiveWallpapers \
-#    LiveWallpapersPicker \
-#    MagicSmokeWallpapers \
-#    NoiseField \
-#    PhaseBeam \
-#    PhotoTable
-
-
 # Apps - copied from build/target/product/generic_no_telephony.mk
 PRODUCT_PACKAGES += \
-    Camera2 \
     Gallery2 \
-    Music \
     MusicFX \
-    NfcNci \
-    OneTimeInitializer \
-    Provision \
-    SystemUI \
-    SysuiDarkThemeOverlay \
-    EasterEgg \
-    WallpaperCropper \
+    TelephonyProvider \
+    Stream \
+    DeskClock \
+    Calendar \
+    CalendarProvider \
+    StorageManager \
+    QuickSearchBox \
+    Browser2 \
+    UserDictionaryProvider \
+    SettingsIntelligence \
+    framework-res-overlay \
+#    OneTimeInitializer \
+#    SystemUI \
+#   SysuiDarkThemeOverlay \
 #    Bluetooth \
 #    BluetoothMidiService \
 
-PRODUCT_PACKAGES += \
-    clatd \
-    clatd.conf \
-    pppd \
+# For connectivity over cell provider - enable this if needed
+#PRODUCT_PACKAGES += \
+#    clatd \
+#    clatd.conf \
+#    pppd \
 
 # Utilities
 PRODUCT_PACKAGES += \
@@ -193,28 +191,5 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wpa_supplicant.conf:system/vendor/etc/wifi/wpa_supplicant.conf \
     $(LOCAL_PATH)/wpa_supplicant_overlay.conf:system/vendor/etc/wifi/wpa_supplicant_overlay.conf \
-
-# Copy sound files
-$(call inherit-product-if-exists, frameworks/base/data/sounds/AllAudio.mk)
-
-# Get the alsa files
-$(call inherit-product-if-exists,hardware/libaudio/alsa.mk)
-
-# Get TTS language packs
-$(call inherit-product-if-exists, external/svox/pico/lang/all_pico_languages.mk)
-
-# HAL packages
-$(call inherit-product-if-exists, $(LOCAL_PATH)/hal_packages.mk)
-
-#PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-#    ro.zygote=zygote64_32 \
-
-# For modprobe
-$(call inherit-product-if-exists, $(LOCAL_PATH)/modprobe_extras.mk)
-
-#$(call inherit-product-if-exists, $(LOCAL_PATH)/build_initrd.mk)
-
-
-
 
 
