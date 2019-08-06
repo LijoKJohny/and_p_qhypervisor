@@ -86,4 +86,7 @@ BOARD_SEPOLICY_DIRS += \
 	device/generic/car/common/sepolicy \
 
 
+# Vendor interface manifest (vintf) file(for hwservicemanger and vndksupport)
+DEVICE_MANIFEST_FILE += device/qnx-hypervisor/renesas/salvator_h3sk_arm64/manifest.xml
+
 

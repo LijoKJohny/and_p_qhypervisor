@@ -48,10 +48,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     com.android.car.radio.demo=true \
     com.android.car.radio.demo.dual=true
 
-PRODUCT_PROPERTY_OVERRIDES += \
-     dalvik.vm.heapstartsize=8m \
-     dalvik.vm.heapgrowthlimit=128M \
-     dalvik.vm.heapsize=174M
+# disabling due to slow operation
+#PRODUCT_PROPERTY_OVERRIDES += \
+#     dalvik.vm.heapstartsize=8m \
+#     dalvik.vm.heapgrowthlimit=128M \
+#     dalvik.vm.heapsize=174M
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.carrier=unknown
@@ -123,7 +124,7 @@ PRODUCT_PACKAGES += \
     framework-res-overlay \
 #    OneTimeInitializer \
 #    SystemUI \
-#   SysuiDarkThemeOverlay \
+#    SysuiDarkThemeOverlay \
 #    Bluetooth \
 #    BluetoothMidiService \
 
